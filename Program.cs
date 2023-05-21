@@ -31,13 +31,13 @@
                 while(firstQueue.Count > 0 )
                 {
                     int queueSize = firstQueue.Count;
-                    for (int i = 0; i < queueSize; ++i)
+                    for (; queueSize > 0; --queueSize)
                     {
                         int[] cell = firstQueue.Dequeue();
-                        for (int j = 0; j < 4; ++j)
+                        for (int i = 0; i < 4; ++i)
                         {
-                            int newX = cell[0] + deltaX[j];
-                            int newY = cell[1] + deltaY[j];
+                            int newX = cell[0] + deltaX[i];
+                            int newY = cell[1] + deltaY[i];
                             if (newX >= 0 && newX < n && newY >= 0 && newY < n && grid[newX][newY] == 1)
                             {
                                 firstQueue.Enqueue(new int[] { newX, newY });
@@ -51,21 +51,24 @@
                 while(secondQueue.Count > 0)
                 {
                     int queueSize = secondQueue.Count;
-                    for (int i = 0; i < queueSize; ++i)
+                    for (; queueSize > 0; --queueSize)
                     {
                         int[] cell = secondQueue.Dequeue();
-                        for (int j = 0; j < 4; ++j)
+                        for (int i = 0; i < 4; ++i)
                         {
-                            int newX = cell[0] + deltaX[j];
-                            int newY = cell[1] + deltaY[j];
+                            int newX = cell[0] + deltaX[i];
+                            int newY = cell[1] + deltaY[i];
                             if (newX >= 0 && newX < n && newY >= 0 && newY < n)
                             {
                                 if (grid[newX][newY] == 1)
                                 {
                                     return distance;
                                 }
-                                secondQueue.Enqueue(new int[] { newX, newY });
-                                grid[newX][newY] = -1;
+                                else if (grid[newX][newY] == 0)
+                                {
+                                    secondQueue.Enqueue(new int[] { newX, newY });
+                                    grid[newX][newY] = -1;
+                                }
                             }
                         }
                     }
